@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Analysis - Select Sectors</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: darkslategray;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        button {
+            background-color: darkslategray;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Stock Analysis - Select Sectors</h1>
+
+<form action="/stock_analysis.html" method="post">
+    <label for="it">IT</label>
+    <input type="checkbox" id="it" name="sectors" value="IT">
+
+    <label for="metals">Metals</label>
+    <input type="checkbox" id="metals" name="sectors" value="Metals">
+
+    <label for="pharma">Pharma</label>
+    <input type="checkbox" id="pharma" name="sectors" value="Pharma">
+
+    <!-- Add more sectors as needed -->
+
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
