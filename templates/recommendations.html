@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #fff;
+    }
+
+    header {
+      background-color: #2d2d2d;
+      padding: 1em;
+      text-align: center;
+    }
+
+    section {
+      text-align: center;
+      padding: 2em;
+    }
+
+    div {
+      margin: 20px 0;
+    }
+
+    ol {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background-color: #2d2d2d;
+      border: 1px solid #4CAF50;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1em;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Startup Finder - Recommendations</h1>
+  </header>
+
+  <section>
+    <h2>Graphs</h2>
+    <div>{{ graph1|safe }}</div>
+    <div>{{ graph2|safe }}</div>
+    <div>{{ graph3|safe }}</div>
+    <div>{{ graph4|safe }}</div>
+  </section>
+
+  <section>
+    <h2>Recommended Startups</h2>
+    <ol>
+        {% for startup in recommended_startups.itertuples() %}
+            <li>{{ startup._1 }}</li>
+        {% endfor %}
+    </ol>
+  </section>
+
+  <footer>
+    <p>&copy; 2023 Your Bank. All rights reserved.</p>
+  </footer>
+</body>
+</html>

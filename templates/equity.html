@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Percentage Allocator - Your Investment Portal</title>
+  <style>
+    /* Add this CSS code to the existing styles in your <style> tag */
+
+/* Style for the "View Stock Forecast" button */
+.stock-forecast-button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #007bff; /* Change the background color as needed */
+  color: #fff;
+  border: 2px solid #007bff; /* Change the border color as needed */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.stock-forecast-button:hover {
+  background-color: #0056b3; /* Change the hover background color as needed */
+  color: #fff;
+}
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: darkslategray;
+      color: #fff;
+      padding: 1em;
+      text-align: center;
+    }
+
+    section {
+      padding: 1em;
+      margin-bottom: 1;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 0.5em;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    .news-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .news-item {
+      flex: 1 1 300px;
+      background-color: #f1f3f6;
+      padding: 15px;
+      border-radius: 10px;
+      
+      overflow: hidden;
+    }
+
+    .news-title {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .news-link {
+      text-decoration: none;
+      color: darkslategray;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Percentage Allocator</h1>
+</header>
+
+<section>
+  <h2>See Live Trading charts</h2>
+  
+  <div class="dropdown">
+    <label for="company">Select Company:</label>
+    <select id="company" onchange="changeChart()">
+      <option value="AAPL">Apple</option>
+      <option value="MSFT">Microsoft</option>
+      <option value="GOOGL">Google</option>
+    </select>
+  </div>
+
+  <div id="chart-container" class="tradingview-widget-container"></div>
+
+  <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+  <script type="text/javascript">
+    function changeChart() {
+      var selectedCompany = document.getElementById("company").value;
+      var chartContainer = document.getElementById("chart-container");
+
+      // Clear previous chart
+      chartContainer.innerHTML = "";
+
+      // Create new chart
+      new TradingView.widget({
+        "width": 800,
+        "height": 400,
+        "symbol": selectedCompany,
+        "interval": "W",
+        "timezone": "Etc/UTC",
+        "theme": "light",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
+        "allow_symbol_change": true,
+        "container_id": "chart-container"
+      });
+    }
+
+    // Initialize with default chart
+    changeChart();
+  </script>
+</section>
+
+<section>
+  <h2>Stock Forecast</h2>
+  <p><a href="{{ url_for('stock_forecast') }}" class="stock-forecast-button">View Stock Forecast</a></p>
+</section>
+
+<section>
+  <h2>Latest Market News</h2>
+  <!-- News container with colored boxes -->
+  <div class="news-container" id="news-container">
+    <!-- News updates will be dynamically inserted here -->
+  </div>
+</section>
+<pre>
+
+
+  
+</pre>
+<footer>
+  <p>&copy; 2023 Your Bank. All rights reserved.</p>
+</footer>
+
+<script>
+  // Replace 'YOUR_API_KEY' with your actual News API key
+  const apiKey = '2829876e9fa741b5b6f3b112fa71475f';
+  const apiUrl = `https://newsapi.org/v2/top-headlines?category=business&country=in&apiKey=${apiKey}`;
+
+  // Function to fetch and display news
+  async function fetchAndDisplayNews() {
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 'ok') {
+        const articles = data.articles;
+        const newsContainer = document.getElementById('news-container');
+
+        // Clear previous content
+        newsContainer.innerHTML = '';
+
+        // Display each business news article in a colored box
+        articles.forEach(article => {
+  const articleElement = document.createElement('div');
+  articleElement.classList.add('news-item');
+  articleElement.style.backgroundImage = `url("${article.urlToImage}")`;
+  articleElement.style.backgroundSize = 'cover'; // Adjust as needed (e.g., 'contain')
+  articleElement.innerHTML = `
+    <div class="news-title" style="font-weight: bold;">${article.title}</div>
+    <a href="${article.url}" target="_blank" class="news-link">Read more</a>
+  `;
+  newsContainer.appendChild(articleElement);
+});
+
+      } else {
+        console.error('Error fetching news:', data.message);
+      }
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    }
+  }
+
+  // Call the function to fetch and display business news on page load
+  fetchAndDisplayNews();
+
+  // Set interval to fetch news every 5 minutes (adjust as needed)
+  setInterval(fetchAndDisplayNews, 300000);
+
+  // Function to generate a random color
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+</script>
+
+</body>
+</html>
